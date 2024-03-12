@@ -4,7 +4,7 @@ import { User } from './user.entity';
 @Entity()
 export class TaskGroup {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ length: 255 })
   name: string;
