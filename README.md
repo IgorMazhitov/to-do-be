@@ -1,1 +1,1 @@
-# to-do-be
+1 - run npm run setup
