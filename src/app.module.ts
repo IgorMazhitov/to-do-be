@@ -7,7 +7,17 @@ import { Task } from './database/entities/task.entity';
 import { User } from './database/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([TaskGroup, Task, User])],
+  imports: [TypeOrmModule.forRoot({
+    type: 'postgres',
+      host: 'db',
+      port: 5432,
+      username: 'admin',
+      password: 'admin',
+      database: 'database',
+      entities: [TaskGroup, Task, User],
+      synchronize: true,
+      autoLoadEntities: true,
+  }), TypeOrmModule.forFeature([TaskGroup, Task, User])],
   controllers: [AppController],
   providers: [AppService],
 })

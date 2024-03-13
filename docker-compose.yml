@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - PORT=${PORT}
+    ports:
+      - '3033:3033'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    container_name: frontend

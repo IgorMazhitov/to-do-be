@@ -1,7 +1,7 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('todo')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -23,5 +23,11 @@ export class AppController {
   @Post()
   completeTask(id: string) {
     return this.appService.completeTask(id);
+  }
+
+  @Get('/task')
+  async getTasks(userName: string) {
+    console.log('check')
+    return await this.appService.getTasks(userName);
   }
 }

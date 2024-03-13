@@ -36,4 +36,12 @@ export class AppService {
   completeTask(id: string) {
     return this.taskRepository.update(id, { isCompleted: true });
   }
+
+  async getTasks(userName: string) {
+    console.log('userName', userName)
+    const groups = await this.taskGroupRepository.find({
+      where: { name: userName },
+      relations: ['tasks'],
+    });
+  }
 }
