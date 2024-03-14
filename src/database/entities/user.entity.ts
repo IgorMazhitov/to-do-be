@@ -17,6 +17,6 @@ export class User {
   @Column({ length: 255 })
   username: string;
 
-  @OneToMany(() => TaskGroup, (taskGroup) => taskGroup.user)
+  @OneToMany(() => TaskGroup, (taskGroup) => taskGroup.userId)
   taskGroups: TaskGroup[];
 }

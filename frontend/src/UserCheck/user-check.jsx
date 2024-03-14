@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
+import { UserCheckTabs } from '../misc/misc.ts';
+import CreateForm from './create-user';
+import EnterUser from './enter-user';
 
-const NameForm = ({ onSubmit }) => {
+const UserCheckForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
+  const [tab, setTab] = useState(UserCheckTabs.Create);
 
-  const handleChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (name) => {
+    setName(name);
     onSubmit(name);
   };
 
+  const handleTabClick = (tab) => {
+    console.log(tab)
+    setTab(tab);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={handleChange} />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <div>
+        <button onClick={() => handleTabClick(UserCheckTabs.Create)}>
+          Create
+        </button>
+        <button onClick={() => handleTabClick(UserCheckTabs.Enter)}>
+          Enter
+        </button>
+      </div>
+      {tab === UserCheckTabs.Create && <CreateForm onSubmit={handleSubmit} />}
+      {tab === UserCheckTabs.Enter && <EnterUser onSubmit={handleSubmit} />}
+    </div>
   );
 };
 
-export default NameForm;
+export default UserCheckForm;

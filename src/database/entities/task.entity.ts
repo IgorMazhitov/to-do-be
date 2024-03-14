@@ -15,9 +15,6 @@ export class Task {
   @Column({ length: 255 })
   name: string;
 
-  @Column('text', { nullable: true })
-  detail: string;
-
   @Column({ default: false })
   isCompleted: boolean;
 
