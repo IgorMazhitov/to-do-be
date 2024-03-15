@@ -19,11 +19,28 @@ const UserCheckForm = ({ onSubmit }) => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => handleTabClick(UserCheckTabs.Create)}>
+      <div style={{ marginBottom: '10px' }}>
+        <button
+          onClick={() => handleTabClick(UserCheckTabs.Create)}
+          style={{
+            marginRight: '10px',
+            backgroundColor: tab === UserCheckTabs.Create ? 'lightblue' : 'white',
+            border: '1px solid gray',
+            padding: '5px 10px',
+            cursor: 'pointer',
+          }}
+        >
           Create
         </button>
-        <button onClick={() => handleTabClick(UserCheckTabs.Enter)}>
+        <button
+          onClick={() => handleTabClick(UserCheckTabs.Enter)}
+          style={{
+            backgroundColor: tab === UserCheckTabs.Enter ? 'lightblue' : 'white',
+            border: '1px solid gray',
+            padding: '5px 10px',
+            cursor: 'pointer',
+          }}
+        >
           Enter
         </button>
       </div>

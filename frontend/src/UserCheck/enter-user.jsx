@@ -37,16 +37,37 @@ function EnterUser({ onSubmit }) {
   };
 
   return (
-    <form>
+    <form style={{ marginBottom: '20px' }}>
       <input
         type="text"
         value={user}
         onChange={handleUserChange}
         placeholder="Enter a username"
+        style={{
+          padding: '5px',
+          marginRight: '10px',
+          borderRadius: '3px',
+          border: '1px solid #ccc',
+          fontSize: '16px',
+        }}
       />
-        <button onClick={handleUserSubmit} type="submit">Submit</button>
+      <button
+        onClick={handleUserSubmit}
+        type="submit"
+        style={{
+          padding: '5px 10px',
+          backgroundColor: 'lightblue',
+          border: '1px solid gray',
+          borderRadius: '3px',
+          fontSize: '16px',
+          cursor: 'pointer',
+        }}
+      >
+        Submit
+      </button>
     </form>
   );
 }
 
 export default EnterUser;
+

@@ -57,12 +57,12 @@ export class AppService {
   }
 
   async createGroup(name: string, userName: string) {
-    // check if group exists
-    const groupExists = await this.taskGroupRepository.findOneBy({ name: name });
-    // check if user exists
     const userExists = await this.userRepository.findOne({
       where: { username: userName },
     });
+    // check if group exists
+    const groupExists = await this.taskGroupRepository.findOneBy({ name: name, userId: userExists.id});
+    // check if user exists
     if (groupExists || !userExists) {
       return {
         success: false,
@@ -81,33 +81,78 @@ export class AppService {
     };
   }
 
-  async createTask(name: string, groupId: string) {
+  async createTask(newTaskName: string, groupId: string, userName: string) {
+    try {
+      const user = await this.userRepository.findOneOrFail({ where: { username: userName } });
+      const group = await this.taskGroupRepository.findOneOrFail({ where: { id: groupId } });
+
+      if (!user || !group) {
+        return { success: false, error: 'User or Group does not exist' };
+      }
+  
+      const existingTask = await this.taskRepository.findOne({ where: { name: newTaskName, taskGroup: { id: groupId } }, relations: ['taskGroup'] });
+
+      if (existingTask && existingTask?.taskGroup?.id === group.id) {
+        return { success: false, error: 'Task already exists' };
+      }
+  
+      const task = new Task();
+      task.name = newTaskName;
+      task.taskGroup = group;
+  
+      const newTask = await this.taskRepository.save(task);
+  
+      return { success: true, task: newTask };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }  
+
+  async completeTask(id: string, userName: string, groupId: string) {
+    // check if task exists
+    const taskExists = await this.taskRepository.findOne({ where: { id } });
+    if (!taskExists) {
+      return {
+        success: false,
+        error: 'Task does not exist',
+      };
+    }
+    // check if task is already completed
+    if (taskExists.isCompleted) {
+      return {
+        success: false,
+        error: 'Task is already completed',
+      };
+    }
     // check if user exists
     const userExists = await this.userRepository.findOne({
-      where: { username: name },
+      where: { username: userName },
     });
+    if (!userExists) {
+      return {
+        success: false,
+        error: 'User does not exist',
+      };
+    }
     // check if group exists
     const groupExists = await this.taskGroupRepository.findOne({
       where: { id: groupId },
     });
-    if (!userExists || !groupExists) {
+    if (!groupExists) {
       return {
         success: false,
-        error: 'User or Group does not exist',
+        error: 'Group does not exist',
       };
     }
-    const task = new Task();
-    task.name = name;
-    task.taskGroup = groupExists; // Assign the actual TaskGroup entity
-    const newTask = await this.taskRepository.save(task);
+    const task = await this.taskRepository.save({
+      ...taskExists,
+      isCompleted: true,
+    })
+
     return {
       success: true,
-      task: newTask,
+      task,
     };
-  }
-
-  completeTask(id: string) {
-    return this.taskRepository.update(id, { isCompleted: true });
   }
 
   async getTasks(userName: string) {
