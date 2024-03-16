@@ -55,4 +55,3 @@ This project is a simple To-Do web application built using NestJS and PostgreSQL
 # Description: Get tasks for a user.
 # Query Parameters: userName (string) - The username of the user.
 # Returns: The tasks assigned to the user.
-# Service Integratio
