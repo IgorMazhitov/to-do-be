@@ -16,7 +16,7 @@ services:
 
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: backend
     environment:
@@ -26,7 +26,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./src:/app/src
+      - ./backend/src:/app/src
 
   frontend:
     build: 
@@ -39,3 +39,6 @@ services:
     depends_on:
       - backend
     container_name: frontend
+    volumes: 
+      - ./frontend/src:/app/src
+    

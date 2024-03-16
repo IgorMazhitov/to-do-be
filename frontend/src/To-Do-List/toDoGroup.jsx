@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import TaskItem from './taskItem';
 
-const ToDoGroups = ({ username }) => {
+const ToDoGroups = ({ userName }) => {
   const [groups, setGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -9,10 +10,10 @@ const ToDoGroups = ({ username }) => {
 
   const fetchToDoGroups = async () => {
     let url = 'http://localhost:3033/todo/task';
-    if (username) {
-      url += `?userName=${username}`;
+    if (userName) {
+      url += `?userName=${userName}`;
     } else {
-      alert('Please provide a username');
+      alert('Please provide a userName');
       return;
     }
 
@@ -44,7 +45,7 @@ const ToDoGroups = ({ username }) => {
 
   const handleCreateGroup = async (name) => {
     try {
-      const url = `http://localhost:3033/todo/group?name=${name}&userName=${username}`;
+      const url = `http://localhost:3033/todo/group?name=${name}&userName=${userName}`;
       const response = await fetch(url, {
         method: 'POST',
       });
@@ -91,7 +92,7 @@ const ToDoGroups = ({ username }) => {
     const url = `http://localhost:3033/todo/task`;
     const body = {
       groupId: selectedGroupId.toString(),
-      userName: username,
+      userName: userName,
       name: taskName,
     };
 
@@ -140,7 +141,7 @@ const ToDoGroups = ({ username }) => {
   };
 
   const handleTaskToggle = async (groupId, taskId, completed) => {
-    const url = `http://localhost:3033/todo/task/complete?id=${taskId}&groupId=${groupId}&userName=${username}`;
+    const url = `http://localhost:3033/todo/task/complete?id=${taskId}&groupId=${groupId}&userName=${userName}`;
 
     try {
       const response = await fetch(url, {
@@ -190,7 +191,7 @@ const ToDoGroups = ({ username }) => {
 
   useEffect(() => {
     fetchToDoGroups();
-  }, [username, groups]);
+  }, [userName, groups]);
 
   return (
     <div>
@@ -224,7 +225,7 @@ const ToDoGroups = ({ username }) => {
         </button>
       </div>
 
-      <h2>To-Do Groups for {username}</h2>
+      <h2>To-Do Groups for {userName}</h2>
       <ul
         style={{
           display: 'flex',
@@ -266,32 +267,11 @@ const ToDoGroups = ({ username }) => {
               }}
             >
               {group.tasks.map((task) => (
-                <li
+                <TaskItem
                   key={task.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    textDecoration: task.isCompleted ? 'line-through' : 'none',
-                    padding: '5px',
-                    borderRadius: '3px',
-                    backgroundColor: task.isCompleted
-                      ? '#f9f9f9'
-                      : 'transparent',
-                  }}
-                >
-                  <span>{task.name}</span>
-                  {!task.isCompleted && (
-                    <label style={{ marginLeft: '5px' }}>
-                      <input
-                        type="radio"
-                        onChange={() =>
-                          handleTaskToggle(group.id, task.id, task.isCompleted)
-                        }
-                      />
-                    </label>
-                  )}
-                </li>
+                  task={task}
+                  onTaskToggle={() => handleTaskToggle(group.id, task.id, task.isCompleted)}
+                />
               ))}
               <li>
                 <button
