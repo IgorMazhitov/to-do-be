@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TaskGroup } from './task-group.entity';
+import { Contact } from './contact.entity';
 
 @Entity()
 @Unique(['username'])
@@ -19,4 +20,7 @@ export class User {
 
   @OneToMany(() => TaskGroup, (taskGroup) => taskGroup.userId)
   taskGroups: TaskGroup[];
+
+  @OneToMany(() => Contact, (contact) => contact.user)
+  contacts: Contact[];
 }

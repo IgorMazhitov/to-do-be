@@ -5,6 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskGroup } from './database/entities/task-group.entity';
 import { Task } from './database/entities/task.entity';
 import { User } from './database/entities/user.entity';
+import { ToDoModule } from './todo/todo.module';
+import { Contact } from './database/entities/contact.entity';
+import { Tag } from './database/entities/tag.entity';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -14,10 +18,10 @@ import { User } from './database/entities/user.entity';
       username: 'admin',
       password: 'admin',
       database: 'database',
-      entities: [TaskGroup, Task, User],
+      entities: [TaskGroup, Task, User, Contact, Tag],
       synchronize: true,
       autoLoadEntities: true,
-  }), TypeOrmModule.forFeature([TaskGroup, Task, User])],
+  }), TypeOrmModule.forFeature([TaskGroup, Task, User, Contact, Tag]), ToDoModule, ContactsModule],
   controllers: [AppController],
   providers: [AppService],
 })
