@@ -29,7 +29,6 @@ const ToDoGroups = ({ userName }) => {
       alert(`Error: ${data.error}`);
       return;
     } else {
-      console.log(data);
       const sortedGroups = data.groups
         .map((group) => {
           return {
@@ -62,7 +61,6 @@ const ToDoGroups = ({ userName }) => {
         return;
       }
 
-      console.log(data, 'data from create group');
       const sortedGroups = [...groups, data.group]
         .map((group) => {
           return {
