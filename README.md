@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a simple To-Do web application built using NestJS and PostgreSQL, and it is configured to run using Docker.
+This project is a simple To-Do and Contacts web application built using NestJS and PostgreSQL and React, and it is configured to run using Docker.
 
 ## Prerequisites
 
