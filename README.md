@@ -15,6 +15,10 @@ This project is a simple To-Do web application built using NestJS and PostgreSQL
 
 2. Run the following command to start the Docker containers: docker-compose up
 
+3. Then you can go to localhost:3033 - this is react app running in the docker
+
+4. Test it
+
 ## API Endpoints
 ## CONTACTS APP
 # GET /contacts: Get all contacts for a user.
